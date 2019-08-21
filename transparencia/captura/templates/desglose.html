@@ -1,0 +1,612 @@
+{% extends "base_2.html" %}
+{% load bootstrap4 %}
+{% load icons %}
+{% block bootstrap3_content %}
+
+
+    <header class="lt">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary nav">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto nav-tabs" role="tablist">
+                    <li class="nav-item"><a class="nav-link " id="navbar_home" href="#tab_inicio"
+                                            role="tab" data-toggle="tab" aria-controls="tab_inicio"
+                                            aria-selected="true"><img
+                            src="/static/images/logo-mc-claro-horizontal.svg"/></a></li>
+                    {% for articulo in articulos %}
+
+                        {% if articulo.fracciones.count != 0 %}
+                            <li class="nav-item dropdown dropdown">
+                                <a class="nav-link" id="navbar_{{ articulo.id }}" href="#tab_{{ articulo.id }}"
+                                   role="tab" data-toggle="tab" aria-controls="tab_{{ articulo.id }}"
+                                   aria-selected="true">
+                                    {{ articulo }}
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="navbar_{{ articulo.id }}">
+
+
+                                    <div class="content">
+                                        <div class="row">
+                                            {% for fraccion in  articulo.fracciones.all %}
+                                                <div class="col-sm-2 raya">
+                                                    <a href="#tab_{{ fraccion.id }}" data-toggle="modal"
+                                                       data-target="#tab_{{ fraccion.id }}" onclick="">
+                                                        <h5><b>Fracción {{ fraccion.nombre }}</b></h5>
+                                                        <small>{{ fraccion.titulo }}</small>
+                                                    </a>
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" id="navbar_{{ articulo.id }}" href="#tab_{{ articulo.id }}"
+                                   role="button" data-toggle="tab" aria-haspopup="true" aria-expanded="true">
+                                    <span>{{ articulo }}</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="nav-item header-left">
+                        <button class="search-trigger search-trigger-art"><i class="fa fa-search"
+                                                                             style="color: #ffffff"></i></button>
+                        <div class="form-inline">
+                            <form class="search-form search-form-art" action="{% url 'captura:busqueda-publica' ley.id %}" method="get">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Buscar ..."
+                                       aria-label="Buscar" id="q" name="q">
+                                <button class="search-close search-close-art" type="button" id="filtrar"><i
+                                        class="fa fa-search"
+                                        style="color: #ffffff"></i></button>
+                                </button>
+                            </form>
+                        </div>
+
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+
+        </nav>
+
+    </header>
+
+
+
+<div class="content">
+
+
+    <div class="row">
+        <div class="col-sm-12 tab-content" id="set_0">
+
+
+            <div id="tab_home" class="tab-pane fade active show" role="tabpanel"
+                 aria-labelledby="navbar_home">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">Inicio</li>
+                    </ol>
+                </nav>
+                <div class="container-fluid">
+                    <h3 class="mbr-section-title align-left mbr-fonts-style mbr-bold display-1">
+                        Portal de Transparencia de <span style="font-weight: bolder; color:#91373c">La Magdalena Contreras</span>
+                    </h3>
+
+
+                    <div class="row justify-content-center align-items-start">
+                        <div class="col-md-12">
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                {% for articulo in articulos %}
+                                    <div class="col-sm-3">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                {{ articulo.nombre }}
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ articulo.titulo }}</h5>
+                                                <p class="card-text">{{ articulo.descripcion|safe  |truncatechars_html:120 }}</p>
+                                                <a class="btn btn-transparencia" onclick="$('.nav-tabs a[href=\'#tab_{{ articulo.id }}\']').tab('show');">Ver mas</a>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                {% endfor %}
+
+                            <div class="col-sm-3">
+
+                                <h3 >¿No encuentras lo que necesitas?<br>
+                                    Te damos informes aquí</h3><button class="btn bnt-success"
+
+
+                                                                  ><a href="https://mcontreras.gob.mx/contacto/" target="_blank" >Contactar</a></button>
+                                <p >Teléfonos: 5449 - 1214<br>
+                                    oip@mcontreras.gob.mx</p>
+
+
+                            </div>
+</div>
+
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="card px-4 py-6 col-md-2">
+                            <div class="card-wrapper flip-card">
+                                <div class="card-img">
+                                    <img src="/static/img/2.jpg" alt="Ley de Transparencia " title="">
+                                    <div class="img-text mbr-text mbr-fonts-style align-center mbr-white display-4">
+                                        LTAIPRCCM
+                                    </div>
+                                </div>
+                                <div class="card-box">
+                                    <h3 class="mbr-title mbr-fonts-style mbr-bold mbr-black align-center display-2"><span
+                                            style="font-weight: normal;">LTAIPRCCM</span></h3>
+                                    <p class="mbr-card-text mbr-fonts-style align-center display-7">Este apartado
+                                        corresponde a
+                                        las obligaciones de transparencia de la Alcaldía La Magdalena Contreras, de
+                                        acuerdo con
+                                        la Ley de Transparencia, Acceso a la Información Pública y Rendición de Cuentas
+                                        de la
+                                        Ciudad de México.</p>
+                                    <div class="mbr-section-btn align-center">
+                                        <a href="#" class="btn btn-md btn-info display-4">Ver</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card px-4 py-6 col-md-2">
+                            <div class="card-wrapper flip-card">
+                                <div class="card-img">
+                                    <img src="/static/img/3.jpg" alt="eCommerce Website Template for Cafe" title="">
+                                    <div class="img-text mbr-text mbr-fonts-style align-center mbr-white display-4">
+                                        Atención
+                                    </div>
+                                </div>
+                                <div class="card-box">
+                                    <h3 class="mbr-title mbr-fonts-style mbr-bold mbr-black align-center display-2"><span
+                                            style="font-weight: normal;">Días Inhábiles</span></h3>
+                                    <p class="mbr-card-text mbr-fonts-style align-center display-7">
+                                        Aviso mediante el cual se aprueban los días inhábiles de la unidad de
+                                        transparencia de
+                                        la Alcaldía La Magdalena Contreras,
+                                        correspondientes al año 2018 y enero de 2019, para efectos de los actos y
+                                        procedimientos
+                                        que se indican. </p>
+                                    <div class="mbr-section-btn align-center">
+                                        <a href="https://mcontreras.gob.mx/transparencia2017/nuevaLey/ut_dias_inhabiles_2018.pdf"
+                                           target="_blank" class="btn btn-md btn-info display-4">Ver</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card px-4 py-6 col-md-2">
+                            <div class="card-wrapper flip-card">
+                                <div class="card-img">
+                                    <img src="/static/img/1.jpg" alt="SIPOT" title="">
+                                    <div class="img-text mbr-text mbr-fonts-style align-center mbr-white display-4">
+                                        SIPOT
+                                    </div>
+                                </div>
+                                <div class="card-box">
+                                    <h3 class="mbr-title mbr-fonts-style mbr-bold mbr-black align-center display-2"><span
+                                            style="font-weight: normal;">SIPOT</span></h3>
+                                    <p class="mbr-card-text mbr-fonts-style align-center display-7">Sistema de Portales
+                                        de Obligaciones de Transparencia (SIPOT).
+
+                                        Visita las obligaciones de transparencia de: Alcaldía La Magdalena
+                                        Contreras.
+                                        <br/>
+                                        <br/></p>
+                                    <div class="mbr-section-btn align-center">
+                                        <a target="_blank"
+                                           href="https://consultapublicamx.inai.org.mx/vut-web/?idSujetoObigadoParametro=20747&idEntidadParametro=9&idSectorParametro=26"
+                                           class="btn btn-md btn-info display-4">Ver</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            {% for articulo in articulos %}
+                <div id="tab_{{ articulo.id }}" class="tab-pane fade" role="tabpanel"
+                     aria-labelledby="navbar_{{ articulo.id }}">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#tab_inicio">Inicio</a></li>
+                            <li class="breadcrumb-item active">{{ articulo }}</li>
+                        </ol>
+                    </nav>
+                    <div class="container-fluid">
+
+                        <div class="row">
+
+
+                            <div class="col-md-12">
+                                <h2>
+                                    {{ articulo }}
+                                </h2>
+                                <h3>
+                                    {{ articulo.titulo|safe }}
+                                </h3>
+                                <h4>
+                                    {{ articulo.descripcion|safe }}
+                                </h4>
+                                <hr/>
+
+
+                            </div>
+                            <div class="col-md-12">
+
+
+                                <table class="table table-hover table-responsive-sm">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Ejercicio</th>
+                                       <!-- <th scope="col">Fecha de inicio del periodo que se informa (día/mes/año)</th>
+                                        <th scope="col">Fecha de término del periodo que se informa (día/mes/año)</th> -->
+                                        <th scope="col">Descarga</th>
+                                        <th scope="col">Responsable</th>
+                                        <th scope="col">Validación</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for fl in articulo.arbol %}
+                                        <tr>
+                                            <td> {{ fl.anio }} </td>
+                                            <!--<td> {{ fl.inicio_actualizacion }}</td>
+                                            <td>{{ fl.actualizacion }}</td>-->
+                                            <td>
+                                                <a class="btn btn-success" href="/media/{{ fl.documento }}">
+                                                    {% icon "download" %} {{ fl.anio }}
+                                                </a>
+                                            </td>
+                                            <td>{{ fl.articulo.responsable }}</td>
+                                            <td>{{ fl.validacion }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <h2>Fracciones</h2>
+                        </div>
+                        <div class="row">
+                            {% for fraccion in  articulo.fracciones.all %}
+                                <div class="col-sm-3">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Fracción {{ fraccion.nombre }}
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ fraccion.titulo }}</h5>
+                                            <p class="card-text">{{ fraccion.descripcion|safe  |truncatechars_html:120 }}</p>
+                                            <a href="#tab_{{ fraccion.id }}" class="btn btn-transparencia"
+                                               data-toggle="modal"
+                                               data-target="#tab_{{ fraccion.id }}">Ver mas</a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            {% endfor %}
+
+
+                        </div>
+                    <div class="row">
+
+                        <a class="btn btn-transparencia"   onclick="$('.nav-tabs a[href=\'#tab_home\']').tab('show');" >Ir al Inicio </a>
+                    </div>
+
+
+
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    {% for articulo in articulos %}
+        {% for fraccion in articulo.fracciones.all %}
+
+            <div class="modal fade" id="tab_{{ fraccion.id }}" tabindex="-1" role="dialog"
+                 aria-labelledby="mct_{{ fraccion.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-full" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="mct_{{ fraccion.id }}">
+                                Fracción {{ fraccion.nombre }}</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="col-md-12">
+                                <h2>
+                                    {{ fraccion }}
+                                </h2>
+                                <h3>
+                                    {{ fraccion.titulo|safe }}
+                                </h3>
+                                <h4>
+                                    {{ fraccion.descripcion|safe }}
+                                </h4>
+                                <hr/>
+
+
+                            </div>
+                            <div class="col-md-12">
+                                <table class="table table-hover table-responsive-sm">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Ejercicio</th>
+                                        <!--<th scope="col">Fecha de inicio del periodo que se informa
+                                            (día/mes/año)
+                                        </th>
+                                        <th scope="col">Fecha de término del periodo que se informa
+                                            (día/mes/año)
+                                        </th>-->
+                                        <th scope="col">Descarga</th>
+                                        <th scope="col">Responsable</th>
+                                        <th scope="col">Validación</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for fl in fraccion.arbol %}
+                                        <tr>
+                                            <td> {{ fl.anio }} </td>
+                                           <!-- <td>{{ fl.inicio_actualizacion }}</td>
+                                            <td>{{ fl.actualizacion }}</td>-->
+                                            <td>
+                                                <a class="btn btn-success"
+                                                   href="/media/{{ fl.documento }}">
+                                                    {% icon "download" %} {{ fl.anio }}
+                                                </a>
+                                            </td>
+                                            <td>{{ fl.articulo.responsable }}</td>
+                                            <td>{{ fl.validacion }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                            <div class="col-sm-12">
+                                <h3>Formatos</h3>
+
+                                <nav>
+                                    <div class="nav nav-tabs nav-incisos nav-justified"
+                                         id="nav-tab-fr-{{ fraccion.id }}"
+                                         role="tablist">
+                                        {% for inciso in fraccion.fracciones.all %}
+
+                                            <a class="nav-item nav-link {% if forloop.counter == 1 %}active{% endif %}"
+                                               id="formato-{{ inciso.id }}-tab" data-toggle="tab"
+                                               href="#formato-{{ inciso.id }}" role="tab"
+                                               aria-controls="formato-{{ inciso.id }}"
+                                               aria-selected="false">{{ inciso.nombre }}</a>
+
+
+
+                                        {% endfor %}
+
+                                    </div>
+                                </nav>
+                                <div class="tab-content" id="nav-tabContent-frm-{{ fraccion.id }}">
+                                    {% for inciso in fraccion.fracciones.all %}
+                                        <div class="tab-pane fade {% if forloop.counter == 1 %}show active{% endif %} "
+                                             id="formato-{{ inciso.id }}"
+                                             role="tabpanel"
+                                             aria-labelledby="formato-{{ inciso.id }}-tab">
+
+                                            <table class="table table-hover table-responsive-sm">
+                                                <thead class="thead-dark">
+                                                <tr>
+                                                    <th scope="col">Ejercicio</th>
+                                                   <!-- <th scope="col">Fecha de inicio del periodo que
+                                                        se informa
+                                                        (día/mes/año)
+                                                    </th>
+                                                    <th scope="col">Fecha de término del periodo que
+                                                        se informa
+                                                        (día/mes/año)
+                                                    </th>-->
+                                                    <th scope="col">Descarga</th>
+                                                    <th scope="col">Responsable</th>
+                                                    <th scope="col">Validación</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for fl in inciso.anual %}
+                                                    <tr>
+                                                        <td> {{ fl.anio }} </td>
+                                                      <!--  <td>{{ fl.inicio_actualizacion }}</td>
+                                                        <td>{{ fl.actualizacion }}</td> -->
+                                                        <td>
+                                                            <a class="btn btn-success"
+                                                               href="/media/{{ fl.documento }}">
+                                                                {% icon "download" %} {{ fl.anio }}
+                                                            </a>
+                                                        </td>
+                                                        <td>{{ fl.articulo.responsable }}</td>
+                                                        <td>{{ fl.validacion }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+
+
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                Cerrar
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    {% endfor %}
+
+
+
+
+
+    <footer id="footer-outer" data-cols="1" data-custom-color="true" data-disable-copyright="false"
+            data-matching-section-color="true" data-copyright-line="true" data-using-bg-img="false"
+            data-bg-img-overlay="0.8" data-full-width="false" data-using-widget-area="false">
+
+
+        <div class="row" id="copyright" data-layout="default">
+
+            <div class="container">
+
+
+                <div class="col span_7 col_last">
+                    <ul class="social">
+                        <li><a target="_blank" href="https://twitter.com/ALaMagdalenaC"><i
+                                class="fab fa-twitter"></i></a></li>
+                        <li><a target="_blank" href="https://www.facebook.com/ALaMagdalenaContreras/"><i
+                                class="fab fa-facebook"></i></a></li>
+                        <li><a target="_blank" href="https://mcontreras.gob.mx/feed/"><i class="fa fa-rss"></i> </a>
+                        </li>
+                        <li><a target="_blank" href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a target="_blank" href="tel:54496000"><i class="fab fa-phone"></i></a></li>
+                    </ul>
+                </div><!--/span_7-->
+
+                <div class="col span_5">
+
+                    <div id="text-2" class="widget widget_text">
+                        <div class="textwidget"><p>Av. Álvaro Obregón #20 Col. Barranca Seca, Del. La Magdalena
+                            Contreras, C.P. 10580 Ciudad de México</p>
+                        </div>
+                    </div>
+                    <p>© 2018 La Magdalena Contreras - Alcaldía. </p>
+
+                </div><!--/span_5-->
+
+            </div><!--/container-->
+
+        </div><!--/row-->
+
+
+    </footer>
+
+
+{% endblock %}
+
+
+
+
+
+
+{% block bootstrap3_title %}Desglose de ley {{ ley }} {% endblock %}
+
+
+
+{% block bootstrap3_extra_script %}
+    <script>
+        $(document).ready(function () {
+            // executes when HTML-Document is loaded and DOM is ready
+
+// breakpoint and up
+            $(window).resize(function () {
+                if ($(window).width() >= 980) {
+
+                    // when you hover a toggle show its dropdown menu
+                    $(".navbar .dropdown-toggle").hover(function () {
+                        $(this).parent().toggleClass("show");
+                        $(this).parent().find(".dropdown-menu").toggleClass("show");
+
+                    });
+
+                    // hide the menu when the mouse leaves the dropdown
+                    $(".navbar .dropdown-menu").mouseleave(function () {
+                        $(this).removeClass("show");
+                    });
+
+                    // do something here
+                }
+            });
+
+            $('.search-trigger-art').on('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                $('.search-trigger-art').parent('.header-left').addClass('open');
+                $("#q").focus()
+            });
+
+            $('.search-close-art').on('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                $('.search-trigger-art').parent('.header-left').removeClass('open');
+            });
+
+            $(".nav-link").click(function () {
+                var me = $(this);
+                var panel = $('#' + this.hash.substr(1).toLowerCase());
+
+                $(".nav-link.active").removeClass("active")
+                $(".nav-link.show").removeClass("show")
+                /*if(me.hasClass('active')){
+                   me.removeClass('active');
+                   me.removeClass('show');
+                   panel.removeClass('active');
+                      return false;
+                }*/
+            });
+
+// document ready
+        });
+    </script>
+
+    <!------ Include the above in your HEAD tag ---------->
+    <style>
+        /* adds some margin below the link sets  */
+
+    </style>
+{% endblock %}

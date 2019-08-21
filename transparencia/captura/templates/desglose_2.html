@@ -1,0 +1,136 @@
+ <!-- GOOGLE ANALYTICS ROCIO PORTILLO -->
+{% load bootstrap4 %}
+{% load icons %}
+
+<link href="resources/bootstrap.css" rel="stylesheet">
+<link href="resources/sb-admin-2.css" rel="stylesheet">
+<link href="resources/style.css" rel="stylesheet">
+<link href="resources/font-awesome.css" rel="stylesheet">
+<link href="resources/jquery-ui.css" rel="stylesheet">
+<link href="resources/jquery-ui_002.css" rel="stylesheet">
+<script src="resources/jquery-ui.js"></script>
+<script src="resources/bootstrap.js"></script>
+<br/>
+<br/>
+
+<a style="border: none; padding: 10px 20px; text-decoration: none; color: #fff; border-radius: 3px; font-weight: 600; text-align: center; display: inline-block; font-size: 14px; width: auto; margin-bottom: 15px; background: #a12056" href="https://consultapublicamx.inai.org.mx/vut-web/?idSujetoObigadoParametro=1647&idEntidadParametro=9&idSectorParametro=26" target="_blank">Visita las obligaciones de transparencia <br> de:  Delegación Cuauhtémoc al SIPOT</a>
+<div class="row">
+
+  <div class="col-md-2">
+     <ul class="nav nav-pills">
+    {%for articulo in articulos%}
+      <li><a href="#tab_{{articulo.id}}"  data-toggle="tab">{{articulo}}</a></li>
+    {%endfor%}
+    </ul>
+  </div>
+  <div class="col-md-10 tab-content" id="set_0">
+    {%for articulo in articulos%}
+      <div id="tab_{{articulo.id}}" class="tab-pane fade">
+            <div class="row">
+              <div class="col-md-8">
+
+                <h3>{{articulo}}<small>{{articulo.descripcion|safe}}</small></h3> <hr/>
+
+
+
+              </div>
+              <div class="col-md-4">
+
+                <p>
+                  Periodo de actualización de esta información:<br/>
+
+                  Trimestral</br>
+
+
+
+
+
+
+                    {%for fl in articulo.arbol%}
+                    <p>
+                              Actualización: {{fl.actualizacion}}<br/>
+
+                              Validación:{{fl.validacion}}<br/>
+
+             				          <a class="btn btn-success" href="/static/{{fl.documento}}">
+             				                  {% icon "download" %} {{fl.anio}}
+             				          </a>
+                   </p>
+             		   {%endfor%}
+
+
+		   <hr/>
+
+
+
+                </p>
+
+              </div>
+
+            </div>
+            <div class="row tabbable">
+              <div class="col-md-12">
+                <ul class="nav nav-pills">
+                  {%for fraccion in  articulo.fracciones.all%}
+                    <li ><a href="#tab_{{fraccion.id}}"  data-toggle="tab">{{fraccion}}</a></li>
+                  {%endfor%}
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 tab-content" id="set_{{articulo.id}}">
+                {%for fraccion in  articulo.fracciones.all%}
+                <div id="tab_{{fraccion.id}}" class="tab-pane fade">
+                  <div class="row">
+                      <div class="col-md-8">
+                        <h3>{{fraccion}}<small>{{fraccion.descripcion|safe}}</small></h3>
+
+
+                           <h4>Incisos</h4>
+                           <ul>
+                           {%for inciso in fraccion.fracciones.all%}
+
+                                <li class='form-group'>{{inciso}}
+
+                                    {%for anio in inciso.anual%}
+                                      <a class="btn btn-success" href="/static/{{anio.documento}}"><span class="glyphicon glyphicon-download"></span> {{anio.anio}}</a>
+                                    {%endfor%}
+                                  </li>
+                           {%endfor%}
+                           </ul>
+
+                      </div>
+                      <div  class="col-md-4">
+                        <p>
+                          Periodo de actualización de esta información:<br/>
+
+                          Trimestral</br>
+
+                          {%for fl in fraccion.arbol%}
+                          <p>
+                                    Actualización: {{fl.actualizacion}}<br/>
+
+                                    Validación:{{fl.validacion}}<br/>
+
+                   				          <a class="btn btn-success" href="/static/{{fl.documento}}">
+                   				                  {% icon "download" %} {{fl.anio}}
+                   				          </a>
+                         </p>
+                   		   {%endfor%}
+
+                        </p>
+                      </div>
+
+
+                  </div>
+
+                </div>
+                {%endfor%}
+              </div>
+            </div>
+
+      </div>
+    {%endfor%}
+  </div>
+
+</div>

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% load icons %}
+{% block bootstrap3_content %}
+
+{%if link%}
+<div class="alert alert-success" role="alert">Se ha creado tu archivo con la liga {{link}}
+  <button type="button" class="btn btn-default btn-sm" onclick="portapapeles('https://transparencia.mcontreras.gob.mx/media/{{link }}')">
+			  <span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Copiar
+			</button>
+</div>
+
+{%endif%}
+<br/>
+
+
+<div class="alert alert-info" role="alert"> Campos con <b class="requiered"></b> son obligatorios</div>
+<form action="/vinculos/" method="post" enctype="multipart/form-data" id="forma" novalidate>
+ <ul class="nav nav-pills">
+    <li class="nav-link active"><a data-toggle="tab"   href="#menu0" >Captura de Archivo</a></li>
+  </ul>
+	{% csrf_token %}
+{% bootstrap_form form %}
+{% buttons %}
+		<button type="submit" class="btn btn-primary">
+				{% icon "star" %} Guardar
+		</button>
+{% endbuttons %}
+  <div class="tab-content"><hr/>
+    <p id="menu0" class="tab-pane fade in active">
+  </div>
+  </div>
+</form>
+
+{% endblock %}
+
+
+
+
+{% block bootstrap3_title %}Subir Archivo a Artículo {% endblock %}
+
+{% block extra_script %}
+<script src="/static/bower_components/tinymce/js/tinymce/tinymce.min.js"></script>
+<script src="/static/bower_components/tinymce/js/tinymce/jquery.tinymce.min.js"></script>
+
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+<script>
+jQuery(function() {
+  jQuery('#id_descripcion').tinymce({
+    language: 'es_MX'
+  });
+});
+</script>
+{% endblock %}

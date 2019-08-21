@@ -1,0 +1,71 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang=""> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sistema de Transparencia de la Alcaldía Contreras</title>
+    <meta name="description" content="Ley de Transparencia de la Ciudad de México">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="/static/apple-icon.png">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+
+
+    <!-- <link rel="stylesheet" href="/static/assets/css/bootstrap-select.less">
+    <link rel="stylesheet" href="/static/assets/scss/style.css">-->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/app.css" />
+    <script src="/static/app.js"></script>
+    <script src="/static/assets/js/main.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-127979939-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-127979939-3');
+</script>
+
+</head>
+<body>
+
+
+<div class="container-fullwidth">
+
+        {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+
+
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %}
+                            class="{{ message.tags }}"{% endif %}> {{ message }}</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+        {% endif %}
+        {% block bootstrap3_content %}
+
+
+        {% endblock %}
+
+
+</div> <!-- .content -->
+
+<!-- Right Panel -->
+
+{% block bootstrap3_extra_script %}{% endblock %}
+{% block extra_script %}
+{% endblock %}
+</body>
+</html>

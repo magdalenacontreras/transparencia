@@ -1,0 +1,293 @@
+{% extends "base_2.html" %}
+{% load bootstrap4 %}
+{% load icons %}
+{% block bootstrap3_content %}
+
+
+
+
+    <header class="lt">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary nav">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto nav-tabs" role="tablist">
+                    <li class="nav-item"><a class="nav-link " id="navbar_home" href="#tab_inicio"
+                                            role="tab" data-toggle="tab" aria-controls="tab_inicio"
+                                            aria-selected="true"><img
+                            src="/static/images/logo-mc-claro-horizontal.svg"/></a></li>
+                    {% for articulo in articulos %}
+
+                        {% if articulo.fracciones.count != 0 %}
+                            <li class="nav-item dropdown dropdown">
+                                <a class="nav-link" id="navbar_{{ articulo.id }}" href="/#tab_{{ articulo.id }}"
+                                   role="tab" data-toggle="tab" aria-controls="tab_{{ articulo.id }}"
+                                   aria-selected="true">
+                                    {{ articulo }}
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="navbar_{{ articulo.id }}">
+
+
+                                    <div class="content">
+                                        <div class="row">
+                                            {% for fraccion in  articulo.fracciones.all %}
+                                                <div class="col-sm-2 raya">
+                                                    <a href="/#tab_{{ fraccion.id }}" data-toggle="modal"
+                                                       data-target="#tab_{{ fraccion.id }}" onclick="">
+                                                        <h5><b>Fracción {{ fraccion.nombre }}</b></h5>
+                                                        <small>{{ fraccion.titulo }}</small>
+                                                    </a>
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" id="navbar_{{ articulo.id }}" href="/#tab_{{ articulo.id }}"
+                                   role="button" data-toggle="tab" aria-haspopup="true" aria-expanded="true">
+                                    <span>{{ articulo }}</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="nav-item header-left">
+                        <button class="search-trigger search-trigger-art"><i class="fa fa-search"
+                                                                             style="color: #ffffff"></i></button>
+                        <div class="form-inline">
+                            <form class="search-form search-form-art" action="{% url 'captura:busqueda-publica' ley.id %}" method="get">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Buscar ..."
+                                       aria-label="Buscar" id="q" name="q">
+                                <button class="search-close search-close-art" type="button" id="filtrar"><i
+                                        class="fa fa-search"
+                                        style="color: #ffffff"></i></button>
+                                </button>
+                            </form>
+                        </div>
+
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+
+        </nav>
+
+    </header>
+
+ <div class="content">
+        <div clas="row">
+
+            <h3>Vínculos</h3>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Acción</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for vinculo in result %}
+                        <tr>
+                            <td scope="row">{{ vinculo.id }}</td>
+                            <td>{{ vinculo.nombre }}</td>
+                            <td>{{ vinculo.descripcion|safe }}</td>
+                            <td>
+
+
+                                <a  class="btn btn-warning" href="https://transparencia.mcontreras.gob.mx/media/{{ vinculo.documento }}" target="_blank"
+
+                                    {% icon 'file-download' %} Descargar
+                                </a>
+
+                                <br/>
+                                <button type="button" class="btn btn-info"
+                                        onclick="portapapeles('https://transparencia.mcontreras.gob.mx/media/{{ vinculo.documento }}')">
+                                    {% icon 'copy' %} Copiar
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <h3>Artículos</h3>
+
+
+            <div class=" table-responsive">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Acción</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ley in leyes %}
+                        <tr>
+                            <td scope="row">{{ ley.id }}</td>
+                            <td>{{ ley.articulo }}</td>
+                            <td>{{ ley.articulo.descripcion|safe }}</td>
+                            <td>
+
+
+                                <a class="btn btn-warning" href="https://transparencia.mcontreras.gob.mx/media/{{  ley.documento }}" target="_blank"
+
+                                    {% icon 'file-download' %} Descargar
+                                </a>
+
+                                <br/>
+                                <button type="button" class="btn btn-info"
+                                        onclick="portapapeles('https://transparencia.mcontreras.gob.mx/media/{{ ley.documento }}')">
+                                    {% icon 'copy' %} Copiar
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+    <footer id="footer-outer" data-cols="1" data-custom-color="true" data-disable-copyright="false"
+            data-matching-section-color="true" data-copyright-line="true" data-using-bg-img="false"
+            data-bg-img-overlay="0.8" data-full-width="false" data-using-widget-area="false">
+
+
+        <div class="row" id="copyright" data-layout="default">
+
+            <div class="container">
+
+
+                <div class="col span_7 col_last">
+                    <ul class="social">
+                        <li><a target="_blank" href="https://twitter.com/ALaMagdalenaC"><i
+                                class="fab fa-twitter"></i></a></li>
+                        <li><a target="_blank" href="https://www.facebook.com/ALaMagdalenaContreras/"><i
+                                class="fab fa-facebook"></i></a></li>
+                        <li><a target="_blank" href="https://mcontreras.gob.mx/feed/"><i class="fa fa-rss"></i> </a>
+                        </li>
+                        <li><a target="_blank" href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a target="_blank" href="tel:54496000"><i class="fab fa-phone"></i></a></li>
+                    </ul>
+                </div><!--/span_7-->
+
+                <div class="col span_5">
+
+                    <div id="text-2" class="widget widget_text">
+                        <div class="textwidget"><p>Av. Álvaro Obregón #20 Col. Barranca Seca, Del. La Magdalena
+                            Contreras, C.P. 10580 Ciudad de México</p>
+                        </div>
+                    </div>
+                    <p>© 2018 La Magdalena Contreras - Alcaldía. </p>
+
+                </div><!--/span_5-->
+
+            </div><!--/container-->
+
+        </div><!--/row-->
+
+
+    </footer>
+
+
+{% endblock %}
+
+
+
+
+
+
+{% block bootstrap3_title %}Desglose de ley {{ ley }} {% endblock %}
+
+
+
+{% block bootstrap3_extra_script %}
+    <script>
+        $(document).ready(function () {
+            // executes when HTML-Document is loaded and DOM is ready
+
+// breakpoint and up
+            $(window).resize(function () {
+                if ($(window).width() >= 980) {
+
+                    // when you hover a toggle show its dropdown menu
+                    $(".navbar .dropdown-toggle").hover(function () {
+                        $(this).parent().toggleClass("show");
+                        $(this).parent().find(".dropdown-menu").toggleClass("show");
+
+                    });
+
+                    // hide the menu when the mouse leaves the dropdown
+                    $(".navbar .dropdown-menu").mouseleave(function () {
+                        $(this).removeClass("show");
+                    });
+
+                    // do something here
+                }
+            });
+
+            $('.search-trigger-art').on('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                $('.search-trigger-art').parent('.header-left').addClass('open');
+                $("#q").focus()
+            });
+
+            $('.search-close-art').on('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                $('.search-trigger-art').parent('.header-left').removeClass('open');
+            });
+
+            $(".nav-link").click(function () {
+                var me = $(this);
+                var panel = $('#' + this.hash.substr(1).toLowerCase());
+
+                $(".nav-link.active").removeClass("active")
+                $(".nav-link.show").removeClass("show")
+                /*if(me.hasClass('active')){
+                   me.removeClass('active');
+                   me.removeClass('show');
+                   panel.removeClass('active');
+                      return false;
+                }*/
+            });
+
+// document ready
+        });
+    </script>
+
+    <!------ Include the above in your HEAD tag ---------->
+    <style>
+        /* adds some margin below the link sets  */
+
+    </style>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% load icons %}
+{% block bootstrap3_content %}
+
+    <div class="alert alert-info" role="alert"> Campos con <b class="requiered"></b> son obligatorios</div>
+    {%if link%}
+<div class="alert alert-success" role="alert">Se ha creado tu archivo con la liga {{link.documento}}
+  <button type="button" class="btn btn-default btn-sm" onclick="portapapeles('https://transparencia.mcontreras.gob.mx/media/{{link.documento }}')">
+			 {% icon 'copy' %} Copiar
+			</button>
+  <a   class="btn btn-default btn-sm"  href="/articulo/html/{{ link.pk }}/" target="_blank">
+			 {% icon 'preview' %} Vista previa
+			</a>
+
+</div>
+
+{%endif%}
+    <form action="/nuevo/" method="post" enctype="multipart/form-data" id="forma" novalidate autocomplete="off">
+
+        <ul class="nav nav-pills">
+            <li class="nav-link active"><a data-toggle="tab" href="#menu0" id="tCaptacion">Captura de Archivo</a></li>
+        </ul>
+
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                {% icon "star" %} Guardar
+            </button>
+        {% endbuttons %}
+
+        <div class="tab-content">
+            <hr/>
+            <p id="menu0" class="tab-pane fade in active">
+
+        </div>
+
+
+        </div>
+
+    </form>
+
+{% endblock %}
+
+
+{% block bootstrap3_title %}Subir Archivo a Artículo {% endblock %}
+
+{% block extra_script %}
+    <script src="/static/bower_components/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script src="/static/bower_components/tinymce/js/tinymce/jquery.tinymce.min.js"></script>
+
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+
+
+
+    <script>
+        jQuery(function () {
+            $ = jQuery
+
+            $('#id_articulo').selectize({})
+
+            $.datepicker.setDefaults($.datepicker.regional['es']);
+            $("#id_actualizacion").datepicker({
+                dateFormat: 'yy-mm-dd',
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#id_inicio_actualizacion").datepicker({
+                dateFormat: 'yy-mm-dd',
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#id_validacion").datepicker({
+                dateFormat: 'yy-mm-dd',
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+
+            document.getElementById('id_documento').onchange = function () {
+                var i = 6;
+                anios = []
+                actual = new Date().getFullYear() + 1
+                while (i--) {
+                    anios.push("" + actual--)
+                }
+
+                for (i = 0; i < 6; i++) {
+                    if (this.value.includes(anios[i])) {
+                        $("#id_anio").val(anios[i])
+                        return;
+                    }
+
+                }
+
+
+            };
+
+        });
+    </script>
+{% endblock %}

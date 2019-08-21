@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% load icons %}
+{% block bootstrap3_content %}
+    <form>
+        {% csrf_token %}
+        <div id="dropzone-1" class="dropzone1 dropzone">
+
+
+        </div>
+
+    </form>
+    <div>
+
+        <table class="table table-striped" id="archivos">
+            <thead>
+            <th>Nombre Original</th>
+            <th>URL</th>
+            </thead>
+            <tbody id="content">
+
+            </tbody>
+
+        </table>
+        <div class="">
+            <button type="button" class="btn btn-info" id="xls">Exportar a Excel</button>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block bootstrap3_title %}Subida en bloque  {% endblock %}
+
+{% block extra_script %}
+
+
+    <script>
+
+        var tabla = null;
+        let $ = jQuery;
+        jQuery(function () {
+
+
+            $("#xls").click(function(){
+                 if(tabla) tabla.reset()
+                 tabla = $("#archivos").tableExport();
+            })
+            $("#dropzone-1").dropzone({
+                url: "/archivos/",
+                headers: {
+                    'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+                },
+                params: {
+                    'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+
+                },
+                addRemoveLinks: true,
+                removedfile: function (file) {
+                    file.previewElement.remove();
+                    $.ajax({
+                        url: '/rarchivos/',
+                        type: "POST",
+                        data: 'uuid=' + file.upload.uuid + "&csrfmiddlewaretoken=" + $('input[name="csrfmiddlewaretoken"]').val()
+                    })
+
+                    $("#" + file.upload.uuid).remove()
+
+                },
+                sending: function (file, xhr, formData) {
+                    formData.append("uuid", file.upload.uuid);
+                },
+                success: function (file, response) {
+                    console.log(response)
+                    $("#content").append("<tr><td>" + file.name + "</td><td>" + response.url + "</td></tr>")
+                },
+                dictRemoveFile: "✘"
+            });
+
+
+        })
+
+    </script>
+    <style>
+        .dropzone1 {
+            background: white;
+            border-radius: 5px;
+            border: 2px dashed rgb(0, 135, 247);
+            border-image: none;
+            text-align: center;
+            vertical-align: middle;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            overflow: scroll;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+
+{% endblock %}

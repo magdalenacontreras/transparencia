@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% load icons %}
+{% block bootstrap3_content %}
+<br/>
+{%for ley in leyes%}
+  {% buttons %}
+          <a class="btn btn-success" href="/desglose/{{ley.id}}/" target="_blank">
+                  {% icon "print" %} {{ley}}
+          </a>
+          <a class="btn btn-warning" href="/sincronizar/{{ley.id}}/">
+                  {% icon "upload" %} Sincronizar {{ley}}
+          </a>
+
+  {% endbuttons %}
+  <br/>
+{%endfor%}
+{% endblock %}
+
+
+{% block bootstrap3_title %}Listado de Leyes  {% endblock %}
+
+{% block extra_script %}
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+
+{% endblock %}
